@@ -25,7 +25,7 @@ class DataTransformation:
         try:
             logging.info("Data Transformation initiated")
 
-            numerical_columns = ['math_score', 'reading_score', 'writing_score']
+            numerical_columns = ['reading_score', 'writing_score']
             categorical_columns = [
                 'gender',
                 'race_ethnicity', 
@@ -57,7 +57,6 @@ class DataTransformation:
                 ('cat_pipeline', cat_pipeline, categorical_columns) 
                 ]
             ) 
-                
             return preprocessor
         
         except Exception as e:
@@ -70,16 +69,11 @@ class DataTransformation:
             train_df = pd.read_csv(train_path)
             test_df = pd.read_csv(test_path)
             
-            logging.info("Creating target column 'average'")
-            # Create the average column as done in EDA
-            train_df['average'] = (train_df['math_score'] + train_df['reading_score'] + train_df['writing_score']) / 3
-            test_df['average'] = (test_df['math_score'] + test_df['reading_score'] + test_df['writing_score']) / 3
-            
             logging.info("Obtaining preprocessor object")
             preprocessor_obj = self.get_data_transformer_object()
             
-            target_column_name = 'average'
-            numerical_columns = ['math_score', 'reading_score', 'writing_score']
+            target_column_name = 'math_score'
+            numerical_columns = ['reading_score', 'writing_score']
             
             input_feature_train_df = train_df.drop(columns=[target_column_name], axis=1)
             target_feature_train_df = train_df[target_column_name]
